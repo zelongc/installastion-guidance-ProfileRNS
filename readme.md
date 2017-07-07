@@ -7,17 +7,20 @@
 
 ## common issues:
 
-1.  Any 'Access denied' by the Integration Service:
+1.  Any 'Access Denied' when operate database management studio:
 ```
 Restart the database management studio as Adminstrator.
 ```
 2.  Error "Cannot insert duplicate key row in object 'RDF.SemWeb.Hash2Base64' with unique index 'idx_SemWebHash' The duplication key is the NULL.
 
 ```
-This is a bug happended in SQL Server 2014 enterprise. the procedure [RDF.][SemWeb].[UpdateHash2Base64] takes a 'Char' as input but we pass it a 'Binary'
-So first we need to create a column in the [RDF.].Node ((char20)) This is used to store the HashValue in string.
+This is a bug happended in SQL Server 2014 enterprise. the procedure [RDF.][SemWeb].[UpdateHash2Base64] takes a 
+'Char' as input but we pass it a 'Binary'
 
-Then change the stored procedure [RDF.][SemWeb].[UpdateHash2Base64]. overwrite it by the 'Replace_UpdateHash2Bse64.sql' in repo. (rename the original procedure for backup)
+So first create a column in the [RDF.].Node ((char20)). This is used to store the HashValue in string.
+
+Then change the stored procedure [RDF.][SemWeb].[UpdateHash2Base64]. overwrite it by the 'Replace_UpdateHash2Bse64.sql'. 
+(rename the original procedure for backup)
 ```
 3. Couldn't find user IIS_IUSERS and IUSR.
 ```
@@ -26,11 +29,13 @@ Right click the folder contains binary website files -> Security -> Add -> Advan
 4. The RDF and the Base URL crash. (happen quite frequently for configuration procedure reason..)
 
 ```
-1. Go check the table [FrameWork].[parameter]. the BaseURI should end with a '/' the base Path should NOT! they should look like
-BasePath http://localhost/profiles
-BaseURI http://localhost/profiles/profile/
+1. Go check the table [FrameWork].[parameter]. 
+   The BaseURI should end with a '/' the base Path should NOT! they should look like
+	BasePath http://localhost/profiles
+	BaseURI http://localhost/profiles/profile/
 
 2. Then go check the table [RDF].[Node] run script:
+
 SELECT TOP 100 FORM [RDF].[Node]
 WHERE Value like '%localhost/profiles%'
 
@@ -50,11 +55,12 @@ Exectue the dailyjob stored in agent
 ```
 6. The GoogleMap missing.
 ```
-Apply the google api key 'https://developers.google.com/maps/documentation/javascript/'
-go to /<yourWebRootFile>/Profile/Modules/NetworkMap/
-Edit the NetworkMap.asp find this line:
-<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
-Between the 'js?' and  the 'sensor=false....' insert the 'key=<the key you apply>&'
+1. Apply the google api key 'https://developers.google.com/maps/documentation/javascript/'
+2. Go to /<yourWebRootFile>/Profile/Modules/NetworkMap/
+
+3. Edit the NetworkMap.asp find this line:
+	<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
+4. Between the 'js?' and  the 'sensor=false....' Insert the 'key=<the key you apply>&'
 
 ```
 
