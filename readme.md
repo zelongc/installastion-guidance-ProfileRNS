@@ -1,36 +1,39 @@
-# A guidance to install the Profile RNS
-## Author: Zelong Cong 
+# A few common issue to configure the Profile RNS
+#### Author: Zelong Cong 
 
-## Environment:
-### windows 10 Enterprise Edition.
-### MS SQL server 2014 enterprise edition
+#### Environment:
+##### windows 10 Enterprise Edition.
+##### MS SQL server 2014 enterprise edition
+##### .NET Framework 3.5
 
-## common issues:
 
-1.  Any 'Access Denied' when operate database management studio:
+## Common issues:
+
+1.  **Any 'Access Denied' when operate database management studio:**
 ```
 Restart the database management studio as Adminstrator.
 ```
-2.  Error "Cannot insert duplicate key row in object 'RDF.SemWeb.Hash2Base64' with unique index 'idx_SemWebHash' The duplication key is the NULL.
+2.  **Error "Cannot insert duplicate key row in object 'RDF.SemWeb.Hash2Base64' with unique index 'idx_SemWebHash' The duplication key is the NULL.**
 
 ```
 This is a bug happended in SQL Server 2014 enterprise. the procedure [RDF.][SemWeb].[UpdateHash2Base64] takes a 
 'Char' as input but we pass it a 'Binary'
 
-So first create a column in the [RDF.].Node ((char20)). This is used to store the HashValue in string.
+So first create a column in the **[RDF.].Node ((char20))**. This is used to store the HashValue in string.
 
-Then change the stored procedure [RDF.][SemWeb].[UpdateHash2Base64]. overwrite it by the 'Replace_UpdateHash2Bse64.sql'. 
+Then change the stored procedure [RDF.][SemWeb].[UpdateHash2Base64]. overwrite it by the **'Replace_UpdateHash2Bse64.sql'**. 
 (rename the original procedure for backup)
 ```
-3. Couldn't find user IIS_IUSERS and IUSR.
+3. **Couldn't find user IIS_IUSERS and IUSR.**
 ```
 Right click the folder contains binary website files -> Security -> Add -> Advanced -> Find Now add the user
 ```
-4. The RDF and the Base URL crash. (happen quite frequently for configuration procedure reason..)
+4. **The RDF and the Base URL crash. (happen quite frequently for configuration procedure reason.)**
 
 ```
 1. Go check the table [FrameWork].[parameter]. 
    The BaseURI should end with a '/' the base Path should NOT! they should look like
+   
 	BasePath http://localhost/profiles
 	BaseURI http://localhost/profiles/profile/
 
@@ -49,11 +52,11 @@ Before executing this script. you have to understand the relationship between pa
 
 ```
 
-5. The co-author missing in the website.
+5. **The co-author missing in the website.**
 ```
 Exectue the dailyjob stored in agent
 ```
-6. The GoogleMap missing.
+6. **The GoogleMap missing.**
 ```
 1. Apply the google api key 'https://developers.google.com/maps/documentation/javascript/'
 2. Go to /<yourWebRootFile>/Profile/Modules/NetworkMap/
